@@ -1,4 +1,4 @@
-Necessary Keys and DataFields for Extraction:
+# Necessary Keys and DataFields for Extraction:
 
 I would need to following keys in the json file: 
 Structured in the following sections:
@@ -7,6 +7,7 @@ Notes:
 - '[]' signalizes that there are multiple Keys and Elements and all of them shall be considered.
 - the current structure '@value' shall not be kept in the final json, it shall be like {'Document.Header.Name': 'Document.Header.Name.@value'}
 
+----
 
 **Necessary Information from Document.Header: (Relevant for all Document.Body.batch.Series.SeriesElements.Elem[])
 Document.Header.Name.@value
@@ -20,6 +21,7 @@ Document.Header.Modifikation.@value
 Document.Header.ProgVersion.@value
 Document.Header.LizenzInfo.@value
 
+----
 
 ** Parsing the Document.Body.UnitTables: (Relevant for all Document.Body.batch.Series.SeriesElements.Elem[])
 Document.Body.UnitTables.Key[].@value
@@ -33,7 +35,7 @@ Document.Body.UnitTables.Elem[].Units.Elem[].Visible.@value
 Document.Body.UnitTables.Elem[].Units.Elem[].Deleteable.@value
 Document.Body.UnitTables.Elem[].Units.Elem[].Guid.@value
 
-
+----
 
 ** Parsing the Document.Body.batch: (Main Part for Measurement Data)
 Document.Body.batch.Guid.@value
