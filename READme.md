@@ -12,8 +12,20 @@ The file converter script is located in `scripts/file_conversion`. The script wa
 
 ## JSON Data Transformation
 
+The main step within the transformation script is the selection of the necessary keys and values.
+Therefore a text file with the definition of the `json` path is necessary, which is described as the following:  
 
-to be defined and described
+```text
+Document.Header.Name.@value
+Document.Header.Kommentar.Text.@value
+Document.Header.SeriesName.@value
+Document.Body.batch.Guid.@value
+Document.Body.batch.EventsDef.EventDefinitions.Elem[].Guid.@value
+Document.Body.batch.Series.Guid.@value 
+Document.Body.batch.Series.SeriesElements.Elem[].Guid.@value
+```
+
+Based on the Definition Input and the `json` File the elements will be extracted and saved as a modified `json` file.
 
 
 ----
