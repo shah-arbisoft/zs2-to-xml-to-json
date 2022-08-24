@@ -28,6 +28,7 @@ Document.Body.batch.Series.SeriesElements.Elem[].Guid.@value
 Based on the Definition Input and the `json` File the elements will be extracted and saved as a modified `json` file.
 
 
+
 ----
 
 ## JSON Format Output 
