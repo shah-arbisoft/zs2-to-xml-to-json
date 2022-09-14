@@ -1,14 +1,18 @@
 import copy
 import json
 import os
-
 import threading
 import helpers
 
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 class JsonPathExtractor():
 
-    def __init__(self, name: str='', json_path_file_name: str='', data: json=None):
+
+    def __init__(self, name: str='', json_path_text_file_name: str='', data: json=None):
         """
         Initialize the class
 
@@ -21,8 +25,10 @@ class JsonPathExtractor():
         self.output_data = {}
         self.file_name = name
         self.data = data or self.load_data_from_json_file()
-        self.json_extractor_paths = self.get_json_path_rules(json_path_file_name)
-        self.save_path = helpers.get_filename(name, '.json', 'modified_json')
+        self.json_extractor_paths = self.get_json_path_rules(json_path_text_file_name)
+        self.save_path = helpers.get_filename(name, '.json', os.getenv('MODIFIED_JSON_SAVE_PATH'))
+        self.unfound_paths_file = os.path.join(os.getcwd(), os.getenv('UNFOUND_PATHS_FILE'))
+
 
 
     def load_data_from_json_file(self, file_name: str = ''):
@@ -42,8 +48,8 @@ class JsonPathExtractor():
             return json.load(f)
 
     def get_json_path_rules(self, file_name):
-        file_name = file_name or 'json_paths'
-        with open(f"{file_name}.txt", "r") as f:
+        file_name = file_name or os.getenv('JSON_PATH_TEXT_FILE')
+        with open(file_name, "r") as f:
             return  [line.strip() for line in f.readlines()]
 
 
@@ -76,12 +82,19 @@ class JsonPathExtractor():
             Returns:
                 list/str: list of float values if converted else return the same value as it is.
         """
-        if key == 'DataArray':
+        if type(value)==str and '[' in value and ']' in value:
             value = value[1:-1]  # remove "[" and "]" from string value
+            required_output = []
+            
             if value:
-                value = value.split(',')  # change string to list of string values
-                return [float(x) for x in value]  # return list after changing it's values type from str to float
-            return []
+                values = value.split(',')  # change string to list of string values         
+                for value in values:
+                    try:
+                        required_output.append(float(value))  #  change to flaot if possible
+                    except:
+                        required_output.append(value)
+
+            return required_output  # return list after changing it's values type from str to float
         return value
 
 
@@ -159,7 +172,7 @@ class JsonPathExtractor():
 
             else:
                 if not copy_data.get(key_name):
-                    with open('unfound_paths.txt', 'a') as file:
+                    with open(self.unfound_paths_file, 'a') as file:
                         file.write('.'.join(keys) + '\n')
                     return
                 copy_data = copy_data.get(key_name)

@@ -1,14 +1,18 @@
+import os
 import helpers
 
 from zs2decode import parser, util
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 class Xml:
 
     def __init__(self, name='', data=None):
         self.file_name = name
         self.data = data
-        self.save_path = helpers.get_filename(name, '.xml')
+        self.save_path = helpers.get_filename(name, '.xml', os.getenv('XML_FILES_PATH'))
 
     def get_data(self) -> str:
         """ Getter for getting xml data of current xml file. """
@@ -64,4 +68,3 @@ class Xml:
         """
         self.zs2_file_to_xml_data(zs2_file_path)
         self.save_xml_data_to_xml_file(self.data, self.save_path)
-

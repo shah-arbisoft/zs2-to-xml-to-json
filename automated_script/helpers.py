@@ -1,6 +1,7 @@
 """ Helper functions for the script"""
 
 import os
+from pathlib import Path
 
 
 def get_filename(zs2_filename: str, ext: str, save_location_folder_name: str=''):
@@ -49,3 +50,8 @@ def split_list_into_equal_n_lists_of_values(given_list, n):
         """
     k, m = divmod(len(given_list), n)
     return list(given_list[i*k+min(i, m):(i+1)*k+min(i+1, m)] for i in range(n))
+
+
+def create_path_folders_if_not_exist(path):
+    Path(path).mkdir(parents=True, exist_ok=True)
+    

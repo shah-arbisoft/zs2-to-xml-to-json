@@ -1,9 +1,13 @@
 import json
+import os
 import helpers
 from xml.etree.ElementTree import fromstring
 
 from xmljson import badgerfish as bf
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 class Json:
 
@@ -17,7 +21,7 @@ class Json:
         """
         self.file_name = name
         self.data = data
-        self.save_path = helpers.get_filename(name, '.json')
+        self.save_path = helpers.get_filename(name, '.json', os.getenv('JSON_FILES_PATH'))
 
     def get_data(self) -> bf.data:
         """ Getter for getting json data of json file. """
